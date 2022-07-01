@@ -135,7 +135,7 @@ def login():
     return render_template("login.html", form=form)
 
 
-@app.route('/logout', methods=["GET", "POST"])
+@app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('get_all_posts'))
