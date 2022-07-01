@@ -108,7 +108,6 @@ def register():
             new_user = User(name=name, email=email, password=hashed_and_salted_password)
             db.session.add(new_user)
             db.session.commit()
-            print(f"{name}{email}{password}{hashed_and_salted_password}")
             return redirect(url_for('get_all_posts'))
 
     return render_template("register.html", form=form)
@@ -121,7 +120,6 @@ def login():
         email = request.form.get("email")
         password = request.form.get("password")
         user = User.query.filter_by(email=email).first()
-        print(f"{user}{email}")
         if not user:
             flash("That email doesn't exist, please try again.")
             return redirect(url_for('login'))
@@ -150,7 +148,6 @@ def show_post(post_id):
 
     if form.validate_on_submit():
         new_comment = request.form.get("body")
-        print(new_comment)
         if current_user.is_anonymous:
             flash("You need to login or register to comment.")
             return redirect(url_for('login'))
