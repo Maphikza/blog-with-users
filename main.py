@@ -20,7 +20,6 @@ Bootstrap(app)
 
 ##CONNECT TO DB > from this ('sqlite:///blog.db')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL", "sqlite:///blog.db")
-# app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://nhojzizxsdppvc:00620c781744c8425c7abc6e7e3ddec343c6f8c718429ba72e7306f8e783e620@ec2-44-205-41-76.compute-1.amazonaws.com:5432/dev1u25sd1bgdj"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -72,7 +71,7 @@ class Comment(db.Model):
     parent_post = relationship("BlogPost", back_populates="comments")
     text = db.Column(db.Text, nullable=False)
 
-db.create_all()
+# db.create_all()
 
 @app.errorhandler(403)
 def not_authorised(e):
@@ -205,6 +204,7 @@ def edit_post(post_id):
             body=post.body
         )
         if edit_form.validate_on_submit():
+            post = BlogPost.query.get(post_id)
             post.title = edit_form.title.data
             post.subtitle = edit_form.subtitle.data
             post.img_url = edit_form.img_url.data
