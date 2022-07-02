@@ -14,13 +14,13 @@ import os
 # app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = "8BYkEfBA6O6donzWlSihBXox7C0sKR6b"
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 ckeditor = CKEditor(app)
 Bootstrap(app)
 
 ##CONNECT TO DB > from this ('sqlite:///blog.db')
-# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL", "sqlite:///blog.db") os.environ.get('DATABASE_URL')
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://nhojzizxsdppvc:00620c781744c8425c7abc6e7e3ddec343c6f8c718429ba72e7306f8e783e620@ec2-44-205-41-76.compute-1.amazonaws.com:5432/dev1u25sd1bgdj"
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL", "sqlite:///blog.db")
+# app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://nhojzizxsdppvc:00620c781744c8425c7abc6e7e3ddec343c6f8c718429ba72e7306f8e783e620@ec2-44-205-41-76.compute-1.amazonaws.com:5432/dev1u25sd1bgdj"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
