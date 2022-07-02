@@ -14,7 +14,7 @@ import os
 # app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+app.config['SECRET_KEY'] = "8BYkEfBA6O6donzWlSihBXox7C0sKR6b"
 ckeditor = CKEditor(app)
 Bootstrap(app)
 
@@ -196,27 +196,28 @@ def add_new_post():
 def edit_post(post_id):
     if current_user.is_authenticated and current_user.id == 1:
         post = BlogPost.query.get(post_id)
-        edit_form = CreatePostForm(
+        form = CreatePostForm(
             title=post.title,
             subtitle=post.subtitle,
             img_url=post.img_url,
             author=post.author,
             body=post.body
         )
-        if edit_form.validate_on_submit():
+        if request.method == "POST":
             post_to_edit = BlogPost.query.get(post_id)
-            post_to_edit.title = edit_form.title.data
-            post_to_edit.subtitle = edit_form.subtitle.data
-            post_to_edit.img_url = edit_form.img_url.data
-            post_to_edit.author = edit_form.author.data
-            post_to_edit.body = edit_form.body.data
+            post_to_edit.title = request.form.get("title")
+            post_to_edit.subtitle = request.form.get("subtitle")
+            post_to_edit.img_url = request.form.get("img_url")
+            post_to_edit.body = request.form.get("body")
+            print(post_to_edit)
+            print(post_to_edit.title)
             db.session.commit()
             return redirect(url_for("show_post", post_id=post.id))
 
     elif current_user.is_anonymous or current_user.id != 1:
         return abort(403)
 
-    return render_template("make-post.html", form=edit_form)
+    return render_template("make-post.html", form=form)
 
 
 @app.route("/delete/<int:post_id>")
